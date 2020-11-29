@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sqlite3
-from importWindow import Ui_ImportWindow
+from ui.importWindow import Ui_ImportWindow
 
 
 class Import(Ui_ImportWindow):

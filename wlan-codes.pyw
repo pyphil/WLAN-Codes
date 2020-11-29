@@ -1,13 +1,11 @@
 from PyQt5 import QtCore, QtGui, QtWidgets        
-from mainwindow import Ui_MainWindow
-from codeabruf import Ui_CodeAbrufen
-from fullscreen import Ui_Fullscreen
+from ui.mainwindow import Ui_MainWindow
+from ui.codeabruf import Ui_CodeAbrufen
+from ui.fullscreen import Ui_Fullscreen
 from os import getlogin
 from datetime import datetime
 import sqlite3
 import pdfexport
-
-import importcodes
 
 
 class Database():
