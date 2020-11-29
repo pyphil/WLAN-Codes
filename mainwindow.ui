@@ -92,7 +92,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>aktuellen Code groß anzeigen</string>
+           <string>aktuellen Code im Vollbild anzeigen</string>
           </property>
          </widget>
         </item>
@@ -146,7 +146,7 @@
            <bool>false</bool>
           </property>
           <property name="text">
-           <string>ausgewählten Code groß anzeigen</string>
+           <string>ausgewählten Code im Vollbild anzeigen</string>
           </property>
          </widget>
         </item>

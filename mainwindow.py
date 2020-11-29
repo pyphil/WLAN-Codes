@@ -113,10 +113,10 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "WLAN Codes"))
         self.label.setText(_translate("MainWindow", ":-)"))
         self.pushButton.setText(_translate("MainWindow", "neuen WLAN Code abrufen"))
-        self.pushButton_2.setText(_translate("MainWindow", "aktuellen Code groß anzeigen"))
+        self.pushButton_2.setText(_translate("MainWindow", "aktuellen Code im Vollbild anzeigen"))
         self.pushButton_3.setText(_translate("MainWindow", "aktuellen Code drucken"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "Neuer Code"))
-        self.pushButton_4.setText(_translate("MainWindow", "ausgewählten Code groß anzeigen"))
+        self.pushButton_4.setText(_translate("MainWindow", "ausgewählten Code im Vollbild anzeigen"))
         self.pushButton_5.setText(_translate("MainWindow", "ausgewählten Code drucken"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "Laufende Codes"))
 
