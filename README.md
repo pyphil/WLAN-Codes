@@ -3,7 +3,11 @@
 *Einfache Ausgabe von WLAN-Codes an Lernende in Bildungseinrichtungen*
 
 **Screenshots**
-![Image](./images/mainwindow.PNG)  ![Image](./images/code_abrufen.PNG)  ![Image](./images/laufende_codes.PNG)
+  s
+  
+![Image](./images/mainwindow.PNG)
+![Image](./images/code_abrufen.PNG)  
+![Image](./images/laufende_codes.PNG)
 
 ![Image](./images/vollbild.PNG)
 
