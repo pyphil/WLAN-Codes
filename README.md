@@ -12,17 +12,17 @@
 
 **Funktionen**
 - Gibt WLAN-Codes aus, die aus einem WLAN-Controller mit verschiedenen Laufzeiten als als multi-use keys für die mehrfache Verwendung durch eine Lerngruppe exportiert worden sind
-- Vollbildmodus zur Anzeige am Interactive Whiteboard
-- Codes können während ihrer Mindestlaufzeit (Laufzeit ab dem Abruf) im Tab "Laufende Codes" noch einmal angezeigt werden
+- Lehrer oder Dozenten können Vollbildmodus den Code für BYOD Geräte am Interactive Whiteboard anzeigen
+- Codes können während ihrer Mindestlaufzeit (Laufzeit ab dem Abruf) im Tab "Laufende Codes" erneut angezeigt werden
 
-**Hinzufügen von Codes**
-- Die Codes werden in einer sqlite-DB verwaltet und beim Abruf mit einem Zeitstempel und Benutzername versehen
+**Hinzufügen von Codes durch Administratoren**
 - Administratoren fügen der Datenbank Codes über ein grafisches Importskript hinzu
 - Das Skript erwartet eine Textdatei mit einem Importcode pro Zeile
+- Die Codes werden in einer sqlite-DB verwaltet und beim Abruf mit einem Zeitstempel und Benutzername versehen
 
 **BUGS**
 - momentan fest eingestellter Export-Ordner für PDF
 - vorbereitete DB muss momentan vorhanden sein, sollte aber vom Programm generiert werden
 
 **Geplante Features**
-- Import aus PDF Dateien, die sich z.B. aus UniFi Contoller exportieren lassen
+- Import direk aus PDF Dateien, die sich z.B. aus UniFi Contoller exportieren lassen
