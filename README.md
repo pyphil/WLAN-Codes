@@ -1,4 +1,5 @@
-[![paypal](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=8KZ7YQRXBLJD8)
+|[Screenshots](https://github.com/pyphil/WLAN-Codes#funktionen-f%C3%BCr-lehrende)|[![paypal](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate?hosted_button_id=8KZ7YQRXBLJD8)|
+| --- | --- |
 # WLAN-Codes
 
 *Einfache Ausgabe von WLAN-Codes an Lernende in Bildungseinrichtungen*
