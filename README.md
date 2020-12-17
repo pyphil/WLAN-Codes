@@ -30,4 +30,4 @@
 - vorbereitete DB muss momentan vorhanden sein, sollte aber vom Programm generiert werden
 
 ## Geplante Features
-- Import direkt aus PDF Dateien, die sich z.B. aus UniFi Contoller exportieren lassen
+- Import direkt aus PDF Dateien, die sich z.B. aus UniFi Contollern exportieren lassen
