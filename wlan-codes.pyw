@@ -244,5 +244,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
+    # app.setAttribute(QtCore.Qt.AA_Use96Dpi)
+    # app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
     ui = Generator()
     sys.exit(app.exec_())
