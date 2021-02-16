@@ -12,15 +12,19 @@
 ![Image](./images/mainwindow.PNG)
 ![Image](./images/code_abrufen.PNG)  
 
-Abrufen von Codes mit gewünschter Laufzeit. Anzeige der verfügbaren Codes in der Statszeile.
+Abrufen von Codes mit gewünschter Laufzeit. Anzeige der verfügbaren Codes in der Statszeile. Export als PDF möglich.
 
 ![Image](./images/laufende_codes.PNG)
 
+Erneutes Abrufen bereits laufender Codes.
+
 ![Image](./images/vollbild.PNG)
 
+Anzeige des Codes im Vollbild am interaktiven Whiteboard.
+
 ## Funktionen für Lehrende
-- Gibt WLAN-Codes aus, die aus einem WLAN-Controller mit verschiedenen Laufzeiten als als multi-use keys für die mehrfache Verwendung durch eine Lerngruppe exportiert worden sind
-- Lehrer oder Dozenten können Vollbildmodus den Code für BYOD Geräte am Interactive Whiteboard anzeigen
+- Gibt WLAN-Codes aus, die aus einem WLAN-Controller mit verschiedenen Laufzeiten als multi-use keys für die mehrfache Verwendung durch eine Lerngruppe exportiert worden sind
+- Lehrer oder Dozenten können im Vollbildmodus den Code für BYOD Geräte am Interactive Whiteboard anzeigen
 - Codes können während ihrer Mindestlaufzeit (Laufzeit ab dem Abruf) im Tab "Laufende Codes" erneut angezeigt werden
 
 ## Funktionen für Administratoren
