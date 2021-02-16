@@ -11,6 +11,9 @@
   
 ![Image](./images/mainwindow.PNG)
 ![Image](./images/code_abrufen.PNG)  
+
+Abrufen von Codes mit gewünschter Laufzeit. Anzeige der verfügbaren Codes in der Statszeile.
+
 ![Image](./images/laufende_codes.PNG)
 
 ![Image](./images/vollbild.PNG)
