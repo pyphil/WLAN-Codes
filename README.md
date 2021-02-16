@@ -8,7 +8,7 @@
 ![Image](./images/mainwindow.PNG)
 ![Image](./images/code_abrufen.PNG)  
 
-Abrufen von Codes mit gewünschter Laufzeit. Anzeige der verfügbaren Codes in der Statszeile. Export als PDF möglich.
+Abrufen von Codes mit gewünschter Laufzeit. Anzeige der verfügbaren Codes in der Statuszeile. Drucken/Export als PDF möglich.
 
 ![Image](./images/laufende_codes.PNG)
 
