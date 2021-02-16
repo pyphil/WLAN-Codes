@@ -3,10 +3,6 @@
 
 *Einfache Ausgabe von WLAN-Codes an Lernende in Bildungseinrichtungen*
 
-## Download
-
-[wlan-codes0.9.4.zip (Windows)](https://github.com/pyphil/WLAN-Codes/releases/download/v0.9.4/wlan-codes0.9.4.zip)
-
 ## Screenshots
   
 ![Image](./images/mainwindow.PNG)
