@@ -1,7 +1,8 @@
-#from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5 import QtWidgets
 import sqlite3
-from ui.importWindow import Ui_ImportWindow
+import re
+from ui.importWindowPaste import Ui_ImportWindow
 
 
 class Import(Ui_ImportWindow):
@@ -10,55 +11,56 @@ class Import(Ui_ImportWindow):
         self.setupUi(self.ImportWindow)
         self.ImportWindow.show()
 
-        self.ButtonDateiname.clicked.connect(self.getFilename)
+        # self.ButtonImport.clicked.connect(self.importcodes)
         self.ButtonImport.clicked.connect(self.importcodes)
         self.ButtonClose.clicked.connect(self.close)
 
-    def getFilename(self):
-        filename = QtWidgets.QFileDialog.getOpenFileName()
-        self.lineEditDateiname.setText(filename[0])
+    def getCodes(self):
+        text = self.plainTextEditCodes.toPlainText()
+        # codeRegex = re.compile(r'\d\d\d-\d\d\d')
+        codes = re.findall(r'\d\d\d\d\d-\d\d\d\d\d', text)
+        return codes
 
     def importcodes(self):
-        try:
-            # Exportdatei öffnen, Datenbank öffnen
-            f = open(self.lineEditDateiname.text(), 'r', encoding="utf-8")
-            verbindung = sqlite3.connect("wlan-code.db")
-            c = verbindung.cursor()
-
-            for zeile in f:
-                # Zeilenumbruch entfernen
-                zeile = zeile.rstrip()
+        codes = self.getCodes()
+        # Exportdatei öffnen, Datenbank öffnen
+        verbindung = sqlite3.connect("wlan-code.db")
+        c = verbindung.cursor()
+        duplicates = 0
+        if codes != []:
+            for i in codes:
                 #  Wenn code nicht in db -> [], dann anlegen, sonst nichts tun
                 db = list(c.execute(""" SELECT code FROM codes
                                 WHERE code = ?
                             """,
-                                    (zeile,)))
+                                    (i,)))
                 if db == []:
                     # anlegen
                     c.execute(""" INSERT INTO codes
                                 ("code", "used", "runtime")
                                 VALUES (?,0,?); """,
-                              (zeile, int(self.spinBoxRuntime.text())))
+                              (i, int(self.spinBoxRuntime.text())))
                     verbindung.commit()
                 else:
-                    pass
+                    duplicates += 1
 
-            f.close()
             c.close()
             verbindung.close()
             self.message = QtWidgets.QMessageBox()
-            self.message.setIcon(QtWidgets. QMessageBox.Information)
+            self.message.setIcon(QtWidgets.QMessageBox.Information)
             self.message.setWindowTitle("Import")
-            self.message.setText("Codes wurden importiert.")
+            self.message.setText(str(len(codes)-duplicates) +
+                                 " Codes wurden importiert. " + 
+                                 str(duplicates) + " Duplikat(e).")
             self.message.exec_()
-        except Exception:
-            f.close()
+        else:
             c.close()
             verbindung.close()
             self.message = QtWidgets.QMessageBox()
             self.message.setIcon(QtWidgets. QMessageBox.Warning)
             self.message.setWindowTitle("Import")
-            self.message.setText("Datei nicht kompatibel.")
+            self.message.setText("Es sind keine Codes im Format XXXXX-XXXXX " +
+                                 "vorhanden.")
             self.message.exec_()
 
     def close(self):
