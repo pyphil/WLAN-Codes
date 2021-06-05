@@ -8,6 +8,8 @@ from datetime import datetime
 import sqlite3
 import pdfexport
 import hashlib
+import re
+from ui.importWindowPaste import Ui_ImportWindow
 
 
 class Database():
@@ -180,6 +182,8 @@ class Login(Ui_Login, QtWidgets.QDialog):
         self.setupUi(self)
         self.show()
 
+        self.main = main
+
         self.pushButtonOK.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
@@ -193,12 +197,9 @@ class Login(Ui_Login, QtWidgets.QDialog):
                                 WHERE user = "admin"
                             """,
                               ))
-        # salt = salt_key[0][0].encode().decode('unicode-escape').encode('ISO-8859-1')
-        # key = salt_key[0][1].encode().decode('unicode-escape').encode('ISO-8859-1')
+
         salt = salt_key[0][0]
         key = salt_key[0][1]
-        
-        print(salt)
 
         new_key = hashlib.pbkdf2_hmac(
             'sha256',
@@ -210,11 +211,81 @@ class Login(Ui_Login, QtWidgets.QDialog):
 
         if new_key == key:
             print('Password is correct')
+            # Objekt Import instanziieren
+            self.codeimportdial = Import(self.main)
+            self.close()
         else:
             print('Password is incorrect')
-
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Das Passwort ist nicht korrekt.")
+            msg.exec_()
 
     def abbrechen(self):
+        self.close()
+
+
+class Import(Ui_ImportWindow, QtWidgets.QDialog):
+    def __init__(self, main):
+        super(Import, self).__init__(main.MainWindow)
+        self.setupUi(self)
+        self.show()
+
+        # self.ButtonImport.clicked.connect(self.importcodes)
+        self.ButtonImport.clicked.connect(self.importcodes)
+        self.ButtonClose.clicked.connect(self.closeWindow)
+
+    def getCodes(self):
+        text = self.plainTextEditCodes.toPlainText()
+        # codeRegex = re.compile(r'\d\d\d-\d\d\d')
+        codes = re.findall(r'\d\d\d\d\d-\d\d\d\d\d', text)
+        return codes
+
+    def importcodes(self):
+        codes = self.getCodes()
+        # Datenbank öffnen
+        verbindung = sqlite3.connect("wlan-code.db")
+        c = verbindung.cursor()
+        duplicates = 0
+        if codes != []:
+            for i in codes:
+                #  Wenn code nicht in db -> [], dann anlegen, sonst nichts tun
+                db = list(c.execute(""" SELECT code FROM codes
+                                WHERE code = ?
+                            """,
+                                    (i,)))
+                if db == []:
+                    # anlegen
+                    c.execute(""" INSERT INTO codes
+                                ("code", "used", "runtime")
+                                VALUES (?,0,?); """,
+                              (i, int(self.spinBoxRuntime.text())))
+                    verbindung.commit()
+                else:
+                    duplicates += 1
+
+            c.close()
+            verbindung.close()
+            self.message = QtWidgets.QMessageBox()
+            self.message.setIcon(QtWidgets.QMessageBox.Information)
+            self.message.setWindowTitle("Import")
+            self.message.setText(str(len(codes)-duplicates) +
+                                 " Codes wurden importiert. " + 
+                                 str(duplicates) + " Duplikat(e).")
+            self.message.exec_()
+        else:
+            c.close()
+            verbindung.close()
+            self.message = QtWidgets.QMessageBox()
+            self.message.setIcon(QtWidgets. QMessageBox.Warning)
+            self.message.setWindowTitle("Import")
+            self.message.setText("Es sind keine Codes im Format XXXXX-XXXXX " +
+                                 "vorhanden.")
+            self.message.exec_()
+
+    def closeWindow(self):
         self.close()
 
 

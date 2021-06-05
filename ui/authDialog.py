@@ -34,6 +34,7 @@ class Ui_Login(object):
         self.pushButtonAbbrechen.setObjectName("pushButtonAbbrechen")
         self.gridLayout.addWidget(self.pushButtonAbbrechen, 3, 1, 1, 1)
         self.lineEditPW = QtWidgets.QLineEdit(Login)
+        self.lineEditPW.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEditPW.setObjectName("lineEditPW")
         self.gridLayout.addWidget(self.lineEditPW, 2, 0, 1, 2)
 
