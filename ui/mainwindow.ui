@@ -6,27 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>326</width>
-    <height>453</height>
+    <width>493</width>
+    <height>396</height>
    </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>326</width>
-    <height>453</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>326</width>
-    <height>453</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>WLAN Codes</string>
@@ -63,10 +45,10 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(226, 240, 255);</string>
+           <string notr="true">background-color: rgb(238, 246, 255);</string>
           </property>
           <property name="text">
-           <string>:-)</string>
+           <string>( ( ( ( • ) ) ) )</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -171,10 +153,25 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>326</width>
-     <height>21</height>
+     <width>493</width>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menudatei">
+    <property name="title">
+     <string>Datei</string>
+    </property>
+    <addaction name="actionCodes_importieren"/>
+    <addaction name="actionBeenden"/>
+   </widget>
+   <widget class="QMenu" name="menuHilfe">
+    <property name="title">
+     <string>Hilfe</string>
+    </property>
+    <addaction name="actionInfo"/>
+   </widget>
+   <addaction name="menudatei"/>
+   <addaction name="menuHilfe"/>
   </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="font">
@@ -185,6 +182,21 @@
     </font>
    </property>
   </widget>
+  <action name="actionCodes_importieren">
+   <property name="text">
+    <string>Codes importieren</string>
+   </property>
+  </action>
+  <action name="actionBeenden">
+   <property name="text">
+    <string>Beenden</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="text">
+    <string>Über</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

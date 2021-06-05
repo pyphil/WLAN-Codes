@@ -23,7 +23,7 @@ class Import(Ui_ImportWindow):
 
     def importcodes(self):
         codes = self.getCodes()
-        # Exportdatei öffnen, Datenbank öffnen
+        # Datenbank öffnen
         verbindung = sqlite3.connect("wlan-code.db")
         c = verbindung.cursor()
         duplicates = 0
