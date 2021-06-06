@@ -314,6 +314,7 @@ class Generator(Ui_MainWindow):
 
         # Menu
         self.actionCodes_importieren.triggered.connect(self.codeimport)
+        self.actionBeenden.triggered.connect(lambda x: self.MainWindow.close())
 
         # Datenbankobjekt instanziieren
         self.db = Database()
