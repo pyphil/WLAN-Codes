@@ -1,4 +1,5 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
@@ -27,7 +28,7 @@ class Database():
         """
         count = []
         for i in range(1, 13):
-            item = list(self.c.execute("""SELECT count(*) FROM codes 
+            item = list(self.c.execute("""SELECT count(*) FROM codes
                                           WHERE runtime = ? AND
                                           used = 0
                                        """,
@@ -61,8 +62,8 @@ class Database():
         return codes[0][0]
 
     def getRunningCodes(self):
-        """ Filtert die laufenden Codes (60 Minuten) und 
-        erstellt eine Liste. Führt die Methode zum 
+        """ Filtert die laufenden Codes (60 Minuten) und
+        erstellt eine Liste. Führt die Methode zum
         Löschen aller abgelaufenen Codes aus.
         """
         codes = list(self.c.execute("""SELECT code, time, runtime FROM codes
@@ -91,7 +92,7 @@ class Database():
         """ löscht abgelaufene Codes aller Nutzer """
         # Gesamtliste holen
         usedcodes = list(self.c.execute("""SELECT code, time from codes
-                                       WHERE used = 1 
+                                       WHERE used = 1
                                     """,
                                         ))
         # Liste der zu löschenden Codes erstellen
@@ -115,16 +116,19 @@ class Database():
             self.verbindung.commit()
 
 
-class CodeAbruf(Ui_CodeAbrufen):
+class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
     hours = []
 
     def __init__(self, generator, db):
+        super(CodeAbruf, self).__init__(generator.MainWindow)
         self.generator = generator
         self.db = db
 
-        self.CodeAbrufen = QtWidgets.QWidget()
-        self.setupUi(self.CodeAbrufen)
-        self.CodeAbrufen.show()
+        self.setupUi(self)
+        self.show()
+
+        # Stylesheet non-editable Combobox ändern
+        self.comboBoxLaufzeit.setStyleSheet("combobox-popup: 0;")
 
         self.count = self.db.count()
 
@@ -155,10 +159,10 @@ class CodeAbruf(Ui_CodeAbrufen):
             self.generator.pushButton_2.setEnabled(True)
             self.generator.pushButton_3.setEnabled(True)
             self.generator.updateStatusbar()
-            self.CodeAbrufen.close()
+            self.close()
 
     def abbrechen(self):
-        self.CodeAbrufen.close()
+        self.close()
 
 
 class Fullscreen(Ui_Fullscreen):
@@ -196,7 +200,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
         salt_key = list(c.execute(""" SELECT salt, key FROM account
                                 WHERE user = "admin"
                             """,
-                              ))
+                                  ))
 
         salt = salt_key[0][0]
         key = salt_key[0][1]
@@ -272,7 +276,7 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
             self.message.setIcon(QtWidgets.QMessageBox.Information)
             self.message.setWindowTitle("Import")
             self.message.setText(str(len(codes)-duplicates) +
-                                 " Codes wurden importiert. " + 
+                                 " Codes wurden importiert. " +
                                  str(duplicates) + " Duplikat(e).")
             self.message.exec_()
         else:
