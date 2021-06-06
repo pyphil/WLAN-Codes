@@ -129,7 +129,6 @@ class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
 
         # Stylesheet non-editable Combobox ändern
         self.comboBoxLaufzeit.setStyleSheet("combobox-popup: 0;")
-        self.comboBoxLaufzeit.setPlaceholderText("placeholderText")
 
         self.count = self.db.count()
 
