@@ -313,6 +313,7 @@ class Generator(Ui_MainWindow):
         # Menu
         self.actionCodes_importieren.triggered.connect(self.codeimport)
         self.actionBeenden.triggered.connect(lambda x: self.MainWindow.close())
+        self.actionInfo.triggered.connect(self.showInfo)
 
         # Datenbankobjekt instanziieren
         self.db = Database()
@@ -372,6 +373,15 @@ class Generator(Ui_MainWindow):
     def exportRunningCode(self):
         pdfexport.makepdf(self.rcodes[self.tableWidget.currentRow(
         )][0], self.rcodes[self.tableWidget.currentRow()][2])
+
+    def showInfo(self):
+        info = QtWidgets.QMessageBox(self.MainWindow)
+        info.setWindowTitle("Info")
+        info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+        info.setText("WLAN-Codes 0.9.5 \n\n" +
+                     "released under GNU Public Licence Version 3 \n"+
+                     "by Philipp Lobe")
+        info.exec_()
 
 
 if __name__ == "__main__":
