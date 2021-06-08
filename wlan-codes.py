@@ -214,12 +214,10 @@ class Login(Ui_Login, QtWidgets.QDialog):
         )
 
         if new_key == key:
-            print('Password is correct')
             # Objekt Import instanziieren
             self.codeimportdial = Import(self.main)
             self.close()
         else:
-            print('Password is incorrect')
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
             msg.setIcon(QtWidgets.QMessageBox.Warning)
             msg.setWindowTitle("Fehler")
