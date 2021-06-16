@@ -379,7 +379,7 @@ class Generator(Ui_MainWindow):
         info.setWindowTitle("Info")
         info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
         info.setText("WLAN-Codes 0.9.5 \n\n" +
-                     "released under GNU Public Licence Version 3 \n"+
+                     "released under GNU Public License Version 3 \n"+
                      "by Philipp Lobe")
         info.exec_()
 
