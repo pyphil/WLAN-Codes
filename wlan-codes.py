@@ -1,5 +1,5 @@
 # from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5 import QtGui, QtWidgets
+from PyQt6 import QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
@@ -152,7 +152,7 @@ class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
             self.message.setIcon(QtWidgets.QMessageBox.Warning)
             self.message.setWindowTitle("Laufzeit")
             self.message.setText("Bitte eine Laufzeit angeben.")
-            self.message.exec_()
+            self.message.exec()
         else:
             # Code aus db holen und anzeigen
             self.generator.label.setText(self.db.getCode(hours))
@@ -223,7 +223,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das Passwort ist nicht korrekt.")
-            msg.exec_()
+            msg.exec()
 
     def abbrechen(self):
         self.close()
@@ -276,7 +276,7 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
             self.message.setText(str(len(codes)-duplicates) +
                                  " Codes wurden importiert. " +
                                  str(duplicates) + " Duplikat(e).")
-            self.message.exec_()
+            self.message.exec()
         else:
             c.close()
             verbindung.close()
@@ -285,7 +285,7 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
             self.message.setWindowTitle("Import")
             self.message.setText("Es sind keine Codes im Format XXXXX-XXXXX " +
                                  "vorhanden.")
-            self.message.exec_()
+            self.message.exec()
 
     def closeWindow(self):
         self.close()
@@ -381,7 +381,7 @@ class Generator(Ui_MainWindow):
         info.setText("WLAN-Codes 0.9.5 \n\n" +
                      "released under GNU Public License Version 3 \n"+
                      "by Philipp Lobe")
-        info.exec_()
+        info.exec()
 
 
 if __name__ == "__main__":
@@ -391,4 +391,4 @@ if __name__ == "__main__":
     # app.setAttribute(QtCore.Qt.AA_Use96Dpi)
     # app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
     ui = Generator()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -40,7 +40,6 @@
           <property name="font">
            <font>
             <pointsize>24</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -59,7 +58,6 @@
          <widget class="QPushButton" name="pushButton">
           <property name="font">
            <font>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -154,7 +152,7 @@
      <x>0</x>
      <y>0</y>
      <width>327</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menudatei">
@@ -176,7 +174,6 @@
   <widget class="QStatusBar" name="statusbar">
    <property name="font">
     <font>
-     <family>MS Shell Dlg 2</family>
      <pointsize>7</pointsize>
      <italic>false</italic>
     </font>
