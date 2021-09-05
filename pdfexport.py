@@ -2,7 +2,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, PageBreak
 import subprocess
-#from os import system
+from os import environ
 
 def makepdf(code, time):
     if time == 1:
@@ -23,7 +23,8 @@ def makepdf(code, time):
     story.append(Paragraph('Die Laufzeit des Codes beginnt mit der ersten Einwahl eines Gerätes.',style['BodyText']))
 
     # Anlegen des PDFs
-    filename = 'U:\\Downloads\\Code.pdf'
+    home = environ['HOMEDRIVE']+environ['HOMEPATH']
+    filename = home + '\\Downloads\\Code.pdf'
     pdf = SimpleDocTemplate(filename,pagesize=A4)
     pdf.build(story)
 
