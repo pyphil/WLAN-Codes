@@ -28,7 +28,7 @@ def makepdf(code, time):
     pdf = SimpleDocTemplate(filename,pagesize=A4)
     pdf.build(story)
 
-    # PDF anzeigen
+    # PDF anzeigen TODO: für Installation in Program Files anpassen sowie ohne Chrome
     subprocess.call("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe "+filename)
     #system("del "+filename)
 

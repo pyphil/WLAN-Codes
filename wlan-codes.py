@@ -219,7 +219,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
             self.close()
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das Passwort ist nicht korrekt.")
