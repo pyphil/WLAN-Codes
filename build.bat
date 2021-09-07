@@ -14,4 +14,5 @@ python.exe -OO -m PyInstaller ^
     --add-data LICENSE;. ^
     wlan-codes.py
 cd dist
+sleep 5
 powershell Compress-Archive wlan-codes\* wlan-codes.zip

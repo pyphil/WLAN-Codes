@@ -1,5 +1,5 @@
 # from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt6 import QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
@@ -376,10 +376,11 @@ class Generator(Ui_MainWindow):
 
     def showInfo(self):
         info = QtWidgets.QMessageBox(self.MainWindow)
-        info.setWindowTitle("Info")
+        info.setWindowTitle("Über")
         info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
-        info.setText("WLAN-Codes 0.9.5 \n\n" +
-                     "released under GNU Public License Version 3 \n"+
+        info.setText("WLAN-Codes 0.9.6 \n\n" +
+                     "released under GNU Public License Version 3 \n" +
+                     "(https://www.gnu.org/licenses/gpl-3.0.en.html)" + "\n" +
                      "by Philipp Lobe")
         info.exec()
 
