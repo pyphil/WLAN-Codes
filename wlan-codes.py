@@ -4,7 +4,7 @@ from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin
+from os import getlogin, environ
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -387,9 +387,8 @@ class Generator(Ui_MainWindow):
 
 if __name__ == "__main__":
     import sys
+    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Floor'
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
-    # app.setAttribute(QtCore.Qt.AA_Use96Dpi)
-    # app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
     ui = Generator()
     sys.exit(app.exec())
