@@ -387,7 +387,8 @@ class Generator(Ui_MainWindow):
 
 if __name__ == "__main__":
     import sys
-    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Floor'
+    # Scale Factor Rounding Policy default is PassThrough in Qt6 (Round in Qt 5)
+    environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
     ui = Generator()
