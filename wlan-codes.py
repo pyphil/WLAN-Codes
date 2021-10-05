@@ -1,4 +1,3 @@
-# from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt6 import QtCore, QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
@@ -9,6 +8,7 @@ from datetime import datetime
 import sqlite3
 import pdfexport
 import hashlib
+# finding regular expressions
 import re
 from ui.importWindowPaste import Ui_ImportWindow
 
@@ -114,6 +114,13 @@ class Database():
                         """,
                            (liste_del[i][0],))
             self.verbindung.commit()
+
+
+class Authentication():
+    def __init__(self):
+        pass
+
+    
 
 
 class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
