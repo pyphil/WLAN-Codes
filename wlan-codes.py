@@ -120,7 +120,7 @@ class Authentication():
     def __init__(self):
         pass
 
-# m   
+    
 
 
 class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
