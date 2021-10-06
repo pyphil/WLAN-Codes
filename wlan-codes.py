@@ -117,10 +117,14 @@ class Database():
 
 
 class Authentication():
-    def __init__(self):
+    def __init__(self, db):
+        self.db = db
+
+    def newPW(self):
         pass
 
-    
+    def login(self):
+        pass
 
 
 class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
