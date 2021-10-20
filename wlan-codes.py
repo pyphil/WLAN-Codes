@@ -1,9 +1,9 @@
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin, environ
+from os import getlogin, environ, os
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -18,7 +18,8 @@ class Database():
         self.verbindung = sqlite3.connect("wlan-code.db")
         self.c = self.verbindung.cursor()
         self.username = getlogin()
-        # zu Beginn alte Codes zu löschen
+        # zu Beginn alte Codes löschen
+        # TODO erst beim Abrufen löschen
         self.deleteOldCodes()
 
     def count(self):
@@ -121,10 +122,50 @@ class Authentication():
         self.db = db
 
     def newPW(self):
-        pass
+        # TODO
+        user = input("User: ")
+        password = input("Password: ")
 
-    def login(self):
-        pass
+        # Salt generieren und hash zu Passwort erzeugen
+        salt = os.urandom(32)
+        key = hashlib.pbkdf2_hmac(
+            'sha256', password.encode('utf-8'), salt, 100000)
+
+        print(salt)
+        print(key)
+
+        # User, salt und hash in Datenbank speichern
+        verbindung = sqlite3.connect("wlan-code.db")
+        c = verbindung.cursor()
+        c.execute(""" CREATE TABLE account(user VARCHAR(20), salt BINARY(128),
+                    key BINARY(128))
+                    """)
+
+        c.execute(""" INSERT INTO account (user, salt, key) VALUES (?, ?, ?)
+                """,
+                  (user, salt, key))
+        verbindung.commit()
+
+    def login(self, pw):
+        # get salt and key (hash) from database
+        salt_key = list(self.db.c.execute(""" SELECT salt, key FROM account
+                                WHERE user = "admin"
+                            """,
+                                          ))
+
+        salt = salt_key[0][0]
+        key = salt_key[0][1]
+
+        new_key = hashlib.pbkdf2_hmac(
+            'sha256',
+            # Convert the password to bytes
+            pw.encode('utf-8'),
+            salt,
+            100000
+        )
+
+        if new_key == key:
+            return True
 
 
 class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
@@ -205,26 +246,10 @@ class Login(Ui_Login, QtWidgets.QDialog):
     def ok(self):
         password = self.lineEditPW.text()
 
-        # get salt and key (hash) from database
-        verbindung = sqlite3.connect("wlan-code.db")
-        c = verbindung.cursor()
-        salt_key = list(c.execute(""" SELECT salt, key FROM account
-                                WHERE user = "admin"
-                            """,
-                                  ))
+        auth = Authentication(self.main.db)
+        result = auth.login(password)
 
-        salt = salt_key[0][0]
-        key = salt_key[0][1]
-
-        new_key = hashlib.pbkdf2_hmac(
-            'sha256',
-            # Convert the password to bytes
-            password.encode('utf-8'),
-            salt,
-            100000
-        )
-
-        if new_key == key:
+        if result:
             # Objekt Import instanziieren
             self.codeimportdial = Import(self.main)
             self.close()
@@ -327,6 +352,7 @@ class Generator(Ui_MainWindow):
         self.actionInfo.triggered.connect(self.showInfo)
 
         # Datenbankobjekt instanziieren
+        # TODO Wenn db nicht vorhanden, erstellen und Passworteinrichtung
         self.db = Database()
 
         # Statusbar bei Start füllen
@@ -398,8 +424,9 @@ class Generator(Ui_MainWindow):
 
 if __name__ == "__main__":
     import sys
-    # Scale Factor Rounding Policy default is PassThrough in Qt6 (Round in Qt 5)
-    environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
+    # Scale Factor Rounding Policy
+    # default is PassThrough in Qt6 (Round in Qt 5)
+    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
     ui = Generator()
