@@ -1,9 +1,9 @@
-from PyQt6 import QtGui, QtWidgets
+from PyQt6 import QtGui, QtWidgets, uic
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin, environ, os
+from os import getlogin, environ, urandom
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -11,6 +11,7 @@ import hashlib
 # finding regular expressions
 import re
 from ui.importWindowPaste import Ui_ImportWindow
+from ui.Einstellungen import Ui_Einstellungen
 
 
 class Database():
@@ -127,7 +128,7 @@ class Authentication():
         password = input("Password: ")
 
         # Salt generieren und hash zu Passwort erzeugen
-        salt = os.urandom(32)
+        salt = urandom(32)
         key = hashlib.pbkdf2_hmac(
             'sha256', password.encode('utf-8'), salt, 100000)
 
@@ -230,6 +231,24 @@ class Fullscreen(Ui_Fullscreen):
 
     def close(self):
         self.Fullscreen.close()
+
+
+# class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
+#     def __init__(self, main):
+#         super(Einstellungen, self).__init__(main.MainWindow)
+#         self.setupUi(self)
+#         self.show()
+
+class Einstellungen(QtWidgets.QDialog):
+    def __init__(self, main):
+        super(Einstellungen, self).__init__(main.MainWindow)
+        uic.loadUi('ui\\Einstellungen.ui', self)
+        self.show()
+
+        self.pushButtonOK.clicked.connect(self.push)
+
+    def push(self):
+        print("push")
 
 
 class Login(Ui_Login, QtWidgets.QDialog):
@@ -349,6 +368,7 @@ class Generator(Ui_MainWindow):
         # Menu
         self.actionCodes_importieren.triggered.connect(self.codeimport)
         self.actionBeenden.triggered.connect(lambda x: self.MainWindow.close())
+        self.actionEinstellungen.triggered.connect(self.einstellungen)
         self.actionInfo.triggered.connect(self.showInfo)
 
         # Datenbankobjekt instanziieren
@@ -359,7 +379,11 @@ class Generator(Ui_MainWindow):
         self.updateStatusbar()
 
     def codeimport(self):
+        # TODO Login vorschalten
         self.logindialog = Login(self)
+
+    def einstellungen(self):
+        self.einst_dial = Einstellungen(self)
 
     def updateStatusbar(self):
         """ Holt im Datenankobjekt die verfügbaren Anzahlen der Codes
@@ -426,7 +450,7 @@ if __name__ == "__main__":
     import sys
     # Scale Factor Rounding Policy
     # default is PassThrough in Qt6 (Round in Qt 5)
-    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
+    environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
     ui = Generator()
