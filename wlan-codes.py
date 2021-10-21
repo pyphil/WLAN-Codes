@@ -267,10 +267,21 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
         self.newPW_2 = self.lineEditWdhNeuPW.text()
         # check new Password
         if len(self.newPW) < 8:
-            # TODO password check dialogues
-            print("Passwort zur kurz.")
+            # Password check dialogues
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Das gewählte Passwort ist nicht lang genug.\n" +
+                        "Es muss mindestens 8 Zeichen enthalten.")
+            msg.exec()
         elif self.newPW != self.newPW_2:
-            print("nicht identisch")
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Die beiden Passwörter sind nicht identisch.")
+            msg.exec()
         else:
             # db zunächst erstellen
             verbindung = sqlite3.connect("wlan-code.db")
@@ -318,7 +329,6 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
         result = self.auth.login(oldPW)
 
         if result:
-            print("Old PW correct")
             self.changePW()
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
@@ -331,11 +341,23 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
     def changePW(self):
         # check new Password
         if len(self.newPW) < 8:
-            print("Passwort zur kurz.")
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Das gewählte Passwort ist nicht lang genug.\n" +
+                        "Es muss mindestens 8 Zeichen enthalten.")
+            msg.exec()
         elif self.newPW != self.newPW_2:
-            print("nicht identisch")
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Die beiden Passwörter sind nicht identisch.")
+            msg.exec()
         else:
             self.auth.updatePW(self.newPW)
+            self.close()
 
     def abbrechen(self):
         self.close()
