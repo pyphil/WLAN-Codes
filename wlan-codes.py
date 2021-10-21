@@ -3,7 +3,7 @@ from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin, environ, urandom, path
+from os import getlogin, urandom, path
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -220,8 +220,9 @@ class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
 
         if self.comboBoxLaufzeit.currentIndex() == -1:
             self.message = QtWidgets.QMessageBox()
-            self.message.setIcon(QtWidgets.QMessageBox.Warning)
+            self.message.setIcon(QtWidgets.QMessageBox().icon().Warning)
             self.message.setWindowTitle("Laufzeit")
+            self.message.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             self.message.setText("Bitte eine Laufzeit angeben.")
             self.message.exec()
         else:
@@ -269,7 +270,7 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
         if len(self.newPW) < 8:
             # Password check dialogues
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das gewählte Passwort ist nicht lang genug.\n" +
@@ -277,7 +278,7 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
             msg.exec()
         elif self.newPW != self.newPW_2:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Die beiden Passwörter sind nicht identisch.")
@@ -332,7 +333,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
             self.changePW()
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das aktuelle Passwort ist nicht korrekt.")
@@ -342,7 +343,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
         # check new Password
         if len(self.newPW) < 8:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das gewählte Passwort ist nicht lang genug.\n" +
@@ -350,7 +351,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
             msg.exec()
         elif self.newPW != self.newPW_2:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Die beiden Passwörter sind nicht identisch.")
@@ -393,7 +394,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
                 self.einstellungen = Einstellungen(self.main)
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
-            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             msg.setText("Das Passwort ist nicht korrekt.")
@@ -445,8 +446,9 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
             c.close()
             verbindung.close()
             self.message = QtWidgets.QMessageBox()
-            self.message.setIcon(QtWidgets.QMessageBox.Information)
+            self.message.setIcon(QtWidgets.QMessageBox().icon().Information)
             self.message.setWindowTitle("Import")
+            self.message.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             self.message.setText(str(len(codes)-duplicates) +
                                  " Codes wurden importiert. " +
                                  str(duplicates) + " Duplikat(e).")
@@ -455,8 +457,9 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
             c.close()
             verbindung.close()
             self.message = QtWidgets.QMessageBox()
-            self.message.setIcon(QtWidgets. QMessageBox.Warning)
+            self.message.setIcon(QtWidgets.QMessageBox().icon().Warning)
             self.message.setWindowTitle("Import")
+            self.message.setWindowIcon(QtGui.QIcon("images/icon.ico"))
             self.message.setText("Es sind keine Codes im Format XXXXX-XXXXX " +
                                  "vorhanden.")
             self.message.exec()
