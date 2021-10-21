@@ -1,4 +1,4 @@
-from PyQt6 import QtGui, QtWidgets, uic
+from PyQt6 import QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
@@ -122,18 +122,13 @@ class Authentication():
     def __init__(self, db):
         self.db = db
 
-    def newPW(self):
-        # TODO
-        user = input("User: ")
-        password = input("Password: ")
+    def newPW(self, password):
+        user = "admin"
 
         # Salt generieren und hash zu Passwort erzeugen
         salt = urandom(32)
         key = hashlib.pbkdf2_hmac(
             'sha256', password.encode('utf-8'), salt, 100000)
-
-        print(salt)
-        print(key)
 
         # User, salt und hash in Datenbank speichern
         verbindung = sqlite3.connect("wlan-code.db")
@@ -146,6 +141,28 @@ class Authentication():
                 """,
                   (user, salt, key))
         verbindung.commit()
+        c.close()
+        verbindung.close()
+
+    def updatePW(self, password):
+        # Salt generieren und hash zu Passwort erzeugen
+        salt = urandom(32)
+        key = hashlib.pbkdf2_hmac(
+            'sha256', password.encode('utf-8'), salt, 100000)
+
+        # User, salt und hash in Datenbank speichern
+        verbindung = sqlite3.connect("wlan-code.db")
+        c = verbindung.cursor()
+
+        c.execute(""" UPDATE account
+                    SET salt = ?, key = ?
+                    WHERE user = "admin"
+                """,
+                  (salt, key))
+
+        verbindung.commit()
+        c.close()
+        verbindung.close()
 
     def login(self, pw):
         # get salt and key (hash) from database
@@ -238,11 +255,42 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
         super(Einstellungen, self).__init__(main.MainWindow)
         self.setupUi(self)
         self.show()
+        self.main = main
 
-        self.pushButtonOK.clicked.connect(self.push)
+        self.pushButtonOK.clicked.connect(self.ok)
+        self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+        self.lineEditAktPW.setFocus()
 
-    def push(self):
-        print("push")
+    def ok(self):
+        oldPW = self.lineEditAktPW.text()
+        self.newPW = self.lineEditNeuPW.text()
+        self.newPW_2 = self.lineEditWdhNeuPW.text()
+
+        self.auth = Authentication(self.main.db)
+        result = self.auth.login(oldPW)
+
+        if result:
+            print("Old PW correct")
+            self.changePW()
+        else:
+            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
+            msg.setWindowTitle("Fehler")
+            msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
+            msg.setText("Das aktuelle Passwort ist nicht korrekt.")
+            msg.exec()
+
+    def changePW(self):
+        # check new Password
+        if len(self.newPW) < 8:
+            print("Passwort zur kurz.")
+        elif self.newPW != self.newPW_2:
+            print("nicht identisch")
+        else:
+            self.auth.updatePW(self.newPW)
+
+    def abbrechen(self):
+        self.close()
 
 
 class Login(Ui_Login, QtWidgets.QDialog):
@@ -257,6 +305,8 @@ class Login(Ui_Login, QtWidgets.QDialog):
         self.pushButtonOK.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
 
+        self.lineEditPW.setFocus()
+
     def ok(self):
         password = self.lineEditPW.text()
 
@@ -269,6 +319,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
                 self.codeimportdial = Import(self.main)
                 self.close()
             elif self.target == "einstellungen":
+                self.close()
                 self.einstellungen = Einstellungen(self.main)
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)

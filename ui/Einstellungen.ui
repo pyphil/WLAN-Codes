@@ -2,16 +2,23 @@
 <ui version="4.0">
  <class>Einstellungen</class>
  <widget class="QDialog" name="Einstellungen">
+  <property name="windowModality">
+   <enum>Qt::ApplicationModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
     <width>276</width>
-    <height>234</height>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Einstellungen</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../images/icon.ico</normaloff>../images/icon.ico</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="8" column="0">
@@ -20,6 +27,9 @@
       <widget class="QPushButton" name="pushButtonOK">
        <property name="text">
         <string>OK</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -52,13 +62,34 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLineEdit" name="lineEditAktPW"/>
+    <widget class="QLineEdit" name="lineEditAktPW">
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLineEdit" name="lineEditNeuPW"/>
+    <widget class="QLineEdit" name="lineEditNeuPW">
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLineEdit" name="lineEditWdhNeuPW"/>
+    <widget class="QLineEdit" name="lineEditWdhNeuPW">
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="clearButtonEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_4">
@@ -89,6 +120,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEditAktPW</tabstop>
+  <tabstop>lineEditNeuPW</tabstop>
+  <tabstop>lineEditWdhNeuPW</tabstop>
+  <tabstop>pushButtonOK</tabstop>
+  <tabstop>pushButtonAbbrechen</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>images/icon.ico</normaloff>images/icon.ico</iconset>
+    <normaloff>../images/icon.ico</normaloff>../images/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -26,6 +26,11 @@
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
       </property>
       <property name="currentIndex">
        <number>0</number>
@@ -40,7 +45,6 @@
           <property name="font">
            <font>
             <pointsize>24</pointsize>
-            <weight>75</weight>
             <bold>true</bold>
            </font>
           </property>
@@ -59,12 +63,15 @@
          <widget class="QPushButton" name="pushButton">
           <property name="font">
            <font>
-            <weight>75</weight>
+            <pointsize>10</pointsize>
             <bold>true</bold>
            </font>
           </property>
           <property name="text">
            <string>neuen WLAN Code abrufen</string>
+          </property>
+          <property name="default">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -154,7 +161,7 @@
      <x>0</x>
      <y>0</y>
      <width>327</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menudatei">
