@@ -24,7 +24,6 @@ class Ui_Login(object):
         self.label = QtWidgets.QLabel(Login)
         font = QtGui.QFont()
         font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)

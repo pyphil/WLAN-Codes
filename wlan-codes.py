@@ -233,16 +233,10 @@ class Fullscreen(Ui_Fullscreen):
         self.Fullscreen.close()
 
 
-# class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
-#     def __init__(self, main):
-#         super(Einstellungen, self).__init__(main.MainWindow)
-#         self.setupUi(self)
-#         self.show()
-
-class Einstellungen(QtWidgets.QDialog):
+class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
     def __init__(self, main):
         super(Einstellungen, self).__init__(main.MainWindow)
-        uic.loadUi('ui\\Einstellungen.ui', self)
+        self.setupUi(self)
         self.show()
 
         self.pushButtonOK.clicked.connect(self.push)
@@ -252,12 +246,13 @@ class Einstellungen(QtWidgets.QDialog):
 
 
 class Login(Ui_Login, QtWidgets.QDialog):
-    def __init__(self, main):
+    def __init__(self, main, target):
         super(Login, self).__init__(main.MainWindow)
         self.setupUi(self)
         self.show()
 
         self.main = main
+        self.target = target
 
         self.pushButtonOK.clicked.connect(self.ok)
         self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
@@ -269,9 +264,12 @@ class Login(Ui_Login, QtWidgets.QDialog):
         result = auth.login(password)
 
         if result:
-            # Objekt Import instanziieren
-            self.codeimportdial = Import(self.main)
-            self.close()
+            # Gewünschtes Objekt instanziieren
+            if self.target == "codeimport":
+                self.codeimportdial = Import(self.main)
+                self.close()
+            elif self.target == "einstellungen":
+                self.einstellungen = Einstellungen(self.main)
         else:
             msg = QtWidgets.QMessageBox(self.main.MainWindow)
             msg.setIcon(QtWidgets.QMessageBox.Icon.Warning)
@@ -379,11 +377,11 @@ class Generator(Ui_MainWindow):
         self.updateStatusbar()
 
     def codeimport(self):
-        # TODO Login vorschalten
-        self.logindialog = Login(self)
+        # Login nur vorschalten, Übergabe des Zieldialog durch "codeimport"
+        self.logindialog = Login(self, "codeimport")
 
     def einstellungen(self):
-        self.einst_dial = Einstellungen(self)
+        self.logindialog = Login(self, "einstellungen")
 
     def updateStatusbar(self):
         """ Holt im Datenankobjekt die verfügbaren Anzahlen der Codes
@@ -450,7 +448,7 @@ if __name__ == "__main__":
     import sys
     # Scale Factor Rounding Policy
     # default is PassThrough in Qt6 (Round in Qt 5)
-    environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
+    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle("Fusion")
     ui = Generator()
