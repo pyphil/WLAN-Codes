@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file '.\fullscreen.ui'
+# Form implementation generated from reading ui file '.\ui\fullscreen.ui'
 #
 # Created by: PyQt6 UI code generator 6.1.0
 #
@@ -17,9 +17,8 @@ class Ui_Fullscreen(object):
         self.gridLayout.setObjectName("gridLayout")
         self.labelCode = QtWidgets.QLabel(Fullscreen)
         font = QtGui.QFont()
-        font.setPointSize(96)
+        font.setPointSize(110)
         font.setBold(True)
-        font.setWeight(75)
         self.labelCode.setFont(font)
         self.labelCode.setStyleSheet("background-color: rgb(226, 240, 255);")
         self.labelCode.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -29,8 +28,8 @@ class Ui_Fullscreen(object):
         font = QtGui.QFont()
         font.setPointSize(24)
         font.setBold(True)
-        font.setWeight(75)
         self.pushButtonClose.setFont(font)
+        self.pushButtonClose.setDefault(True)
         self.pushButtonClose.setObjectName("pushButtonClose")
         self.gridLayout.addWidget(self.pushButtonClose, 1, 0, 1, 1)
 

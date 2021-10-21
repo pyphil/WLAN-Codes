@@ -3,7 +3,7 @@ from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin, environ, urandom
+from os import getlogin, environ, urandom, path
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -12,6 +12,7 @@ import hashlib
 import re
 from ui.importWindowPaste import Ui_ImportWindow
 from ui.Einstellungen import Ui_Einstellungen
+from ui.firstpasswd import Ui_PasswortEinrichtung
 
 
 class Database():
@@ -250,6 +251,53 @@ class Fullscreen(Ui_Fullscreen):
         self.Fullscreen.close()
 
 
+class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
+    def __init__(self, main):
+        super(FirstPassword, self).__init__(main.MainWindow)
+        self.setupUi(self)
+        self.show()
+        self.main = main
+
+        self.pushButtonOK.clicked.connect(self.setPW)
+        self.pushButtonAbbrechen.clicked.connect(self.abbrechen)
+        self.lineEditNeuPW.setFocus()
+
+    def setPW(self):
+        self.newPW = self.lineEditNeuPW.text()
+        self.newPW_2 = self.lineEditWdhNeuPW.text()
+        # check new Password
+        if len(self.newPW) < 8:
+            # TODO password check dialogues
+            print("Passwort zur kurz.")
+        elif self.newPW != self.newPW_2:
+            print("nicht identisch")
+        else:
+            # db zunächst erstellen
+            verbindung = sqlite3.connect("wlan-code.db")
+            c = verbindung.cursor()
+            c.execute(""" CREATE TABLE "codes" (
+                        "code"	TEXT,
+                        "used"	INTEGER,
+                        "username"	TEXT,
+                        "time"	TEXT,
+                        "runtime"	INTEGER
+                    ) 
+                    """,
+                      )
+            verbindung.commit()
+            c.close()
+            verbindung.close()
+
+            self.main.loadDB()
+            self.auth = Authentication(self.main.db)
+            self.auth.newPW(self.newPW)
+            self.close()
+
+    def abbrechen(self):
+        self.close()
+        sys.exit(app.exit())
+
+
 class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
     def __init__(self, main):
         super(Einstellungen, self).__init__(main.MainWindow)
@@ -422,13 +470,19 @@ class Generator(Ui_MainWindow):
 
         # Datenbankobjekt instanziieren
         # TODO Wenn db nicht vorhanden, erstellen und Passworteinrichtung
-        self.db = Database()
+        if path.exists("wlan-code.db"):
+            self.loadDB()
+        else:
+            self.passwortEinrichtung = FirstPassword(self)
 
+    def loadDB(self):
+        print("go")
+        self.db = Database()
         # Statusbar bei Start füllen
         self.updateStatusbar()
 
     def codeimport(self):
-        # Login nur vorschalten, Übergabe des Zieldialog durch "codeimport"
+        # Login vorgeschaltet, Übergabe des Zieldialogs durch "codeimport"
         self.logindialog = Login(self, "codeimport")
 
     def einstellungen(self):
