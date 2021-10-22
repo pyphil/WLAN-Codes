@@ -1,4 +1,4 @@
-from PyQt6 import QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
@@ -8,6 +8,7 @@ from datetime import datetime
 import sqlite3
 import pdfexport
 import hashlib
+import locale
 # finding regular expressions
 import re
 from ui.importWindowPaste import Ui_ImportWindow
@@ -501,7 +502,6 @@ class Generator(Ui_MainWindow):
             self.passwortEinrichtung = FirstPassword(self)
 
     def loadDB(self):
-        print("go")
         self.db = Database()
         # Statusbar bei Start füllen
         self.updateStatusbar()
@@ -580,6 +580,12 @@ if __name__ == "__main__":
     # default is PassThrough in Qt6 (Round in Qt 5)
     # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
+
+    if "en_" in locale.getlocale()[0]:
+        translator = QtCore.QTranslator()
+        translator.load("Resources/mainwindow_en.qm")
+        app.installTranslator(translator)
+
     app.setStyle("Fusion")
     ui = Generator()
     sys.exit(app.exec())

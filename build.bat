@@ -11,6 +11,7 @@ python.exe -OO -m PyInstaller ^
     --exclude-module=Tkinter ^
     --exclude-module=tcl ^
     --add-data images/icon.ico;images ^
+    --add-data Resources/*;Resources ^
     --add-data LICENSE;. ^
     wlan-codes.py
 cd dist
