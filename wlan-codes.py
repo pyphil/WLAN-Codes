@@ -3,7 +3,7 @@ from ui.mainwindow import Ui_MainWindow
 from ui.codeabruf import Ui_CodeAbrufen
 from ui.fullscreen import Ui_Fullscreen
 from ui.authDialog import Ui_Login
-from os import getlogin, urandom, path
+from os import environ, getlogin, urandom, path
 from datetime import datetime
 import sqlite3
 import pdfexport
@@ -567,8 +567,10 @@ class Generator(Ui_MainWindow):
         info = QtWidgets.QMessageBox(self.MainWindow)
         info.setWindowTitle("Über")
         info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
-        info.setText("WLAN-Codes 0.9.6 \n\n" +
-                     "released under GNU Public License Version 3 \n" +
+        info.setText("WLAN-Codes 1.0.0 beta1 \n\n" +
+                     "This software is written in Python and " +
+                     "uses Qt 6.1.\n\n" +
+                     "Released under GNU Public License Version 3 \n" +
                      "(https://www.gnu.org/licenses/gpl-3.0.en.html)" + "\n" +
                      "by Philipp Lobe")
         info.exec()
@@ -578,7 +580,7 @@ if __name__ == "__main__":
     import sys
     # Scale Factor Rounding Policy
     # default is PassThrough in Qt6 (Round in Qt 5)
-    # environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
+    environ['QT_SCALE_FACTOR_ROUNDING_POLICY'] = 'Round'
     app = QtWidgets.QApplication(sys.argv)
 
     if "en_" in locale.getlocale()[0]:
