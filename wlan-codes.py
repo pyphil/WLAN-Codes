@@ -567,7 +567,7 @@ class Generator(Ui_MainWindow):
         info = QtWidgets.QMessageBox(self.MainWindow)
         info.setWindowTitle("Über")
         info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
-        info.setText("WLAN-Codes 1.0.0 beta1 \n\n" +
+        info.setText("WLAN-Codes 1.0.0 \n\n" +
                      "This software is written in Python and " +
                      "uses Qt 6.1.\n\n" +
                      "Released under GNU Public License Version 3 \n" +
