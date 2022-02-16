@@ -192,7 +192,7 @@ class CodeAbruf(Ui_CodeAbrufen, QtWidgets.QDialog):
     hours = []
 
     def __init__(self, generator, db):
-        super(CodeAbruf, self).__init__(generator.MainWindow)
+        super(CodeAbruf, self).__init__(generator)
         self.generator = generator
         self.db = db
 
@@ -255,7 +255,7 @@ class Fullscreen(Ui_Fullscreen):
 
 class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
     def __init__(self, main):
-        super(FirstPassword, self).__init__(main.MainWindow)
+        super(FirstPassword, self).__init__(main)
         self.setupUi(self)
         self.show()
         self.main = main
@@ -270,7 +270,7 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
         # check new Password
         if len(self.newPW) < 8:
             # Password check dialogues
-            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg = QtWidgets.QMessageBox(self.main)
             msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
@@ -278,7 +278,7 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
                         "Es muss mindestens 8 Zeichen enthalten.")
             msg.exec()
         elif self.newPW != self.newPW_2:
-            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg = QtWidgets.QMessageBox(self.main)
             msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
@@ -313,7 +313,7 @@ class FirstPassword(Ui_PasswortEinrichtung, QtWidgets.QDialog):
 
 class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
     def __init__(self, main):
-        super(Einstellungen, self).__init__(main.MainWindow)
+        super(Einstellungen, self).__init__(main)
         self.setupUi(self)
         self.show()
         self.main = main
@@ -333,7 +333,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
         if result:
             self.changePW()
         else:
-            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg = QtWidgets.QMessageBox(self.main)
             msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
@@ -343,7 +343,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
     def changePW(self):
         # check new Password
         if len(self.newPW) < 8:
-            msg = QtWidgets.QMessageBox(self.main.MainWindow)
+            msg = QtWidgets.QMessageBox(self.main)
             msg.setIcon(QtWidgets.QMessageBox().icon().Warning)
             msg.setWindowTitle("Fehler")
             msg.setWindowIcon(QtGui.QIcon("images/icon.ico"))
@@ -367,7 +367,7 @@ class Einstellungen(Ui_Einstellungen, QtWidgets.QDialog):
 
 class Login(Ui_Login, QtWidgets.QDialog):
     def __init__(self, main, target):
-        super(Login, self).__init__(main.MainWindow)
+        super(Login, self).__init__(main)
         self.setupUi(self)
         self.show()
 
@@ -407,7 +407,7 @@ class Login(Ui_Login, QtWidgets.QDialog):
 
 class Import(Ui_ImportWindow, QtWidgets.QDialog):
     def __init__(self, main):
-        super(Import, self).__init__(main.MainWindow)
+        super(Import, self).__init__(main)
         self.setupUi(self)
         self.show()
 
@@ -469,11 +469,17 @@ class Import(Ui_ImportWindow, QtWidgets.QDialog):
         self.close()
 
 
-class Generator(Ui_MainWindow):
+class Generator(Ui_MainWindow, QtWidgets.QMainWindow):
     def __init__(self):
-        self.MainWindow = QtWidgets.QMainWindow()
-        self.setupUi(self.MainWindow)
-        self.MainWindow.show()
+        super(Generator, self).__init__()
+        self.setupUi(self)
+
+        # Get Screen Geometry
+        res = app.primaryScreen().availableGeometry()
+        if res.width() >= 1920:
+            self.resize(400, 400)
+
+        self.show()
 
         # Kopfzeile der Tabelle festlegen
         headers = ["Code", "Restzeit mind."]
@@ -490,7 +496,7 @@ class Generator(Ui_MainWindow):
 
         # Menu
         self.actionCodes_importieren.triggered.connect(self.codeimport)
-        self.actionBeenden.triggered.connect(lambda x: self.MainWindow.close())
+        self.actionBeenden.triggered.connect(lambda x: self.close())
         self.actionEinstellungen.triggered.connect(self.einstellungen)
         self.actionInfo.triggered.connect(self.showInfo)
 
@@ -521,7 +527,8 @@ class Generator(Ui_MainWindow):
         count = self.db.count()
         for i in range(len(count)):
             statustext += str(count[i][0])+"h: "+str(count[i][1])+" Stk.  "
-        self.statusbar.showMessage(statustext)
+        # self.statusbar.showMessage(statustext)
+        self.label_status.setText(statustext)
 
     def newcode(self):
         """ instanziiert de Dialog zum Codeabruf und übergibt db und
@@ -564,7 +571,7 @@ class Generator(Ui_MainWindow):
         )][0], self.rcodes[self.tableWidget.currentRow()][2])
 
     def showInfo(self):
-        info = QtWidgets.QMessageBox(self.MainWindow)
+        info = QtWidgets.QMessageBox(self)
         info.setWindowTitle("Über")
         info.setWindowIcon(QtGui.QIcon("images/icon.ico"))
         info.setText("WLAN-Codes 1.0.0 \n\n" +
